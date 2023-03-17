@@ -1,42 +1,43 @@
 // import * as basicLightbox from 'basiclightbox';
 import { Overlay, ModalDiv } from './Globalstyle';
-import PropTypes from 'prop-types';
-import { Component } from 'react';
+// import PropTypes from 'prop-types';
+// import { Component } from 'react';
+import React, { useEffect } from 'react';
 
-export class Modal extends Component {
-  static propTypes = {
-    onClose: PropTypes.func.isRequired,
-    imgUrl: PropTypes.string,
-    imageTags: PropTypes.string,
-  };
+export const Modal = ({ imageUrl, onClose, imageTags }) => {
+  // static propTypes = {
+  //   onClose: PropTypes.func.isRequired,
+  //   imgUrl: PropTypes.string,
+  //   imageTags: PropTypes.string,
+  // };
 
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDown);
-  }
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+  });
 
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown);
-  }
+  // const componentWillUnmount = () => {
+  //   window.removeEventListener('keydown', handleKeyDown);
+  // };
 
-  handleKeyDown = e => {
+  const handleKeyDown = e => {
     if (e.code === 'Escape') {
-      this.props.onClose();
+      onClose();
     }
   };
 
-  handleBackdropClick = e => {
+  const handleBackdropClick = e => {
     if (e.target === e.currentTarget) {
-      this.props.onClose();
+      onClose();
     }
   };
 
-  render() {
-    return (
-      <Overlay onClick={this.handleBackdropClick}>
-        <ModalDiv>
-          <img src={this.props.imageUrl} alt={this.props.imageTags} />
-        </ModalDiv>
-      </Overlay>
-    );
-  }
+  // render() {
+  return (
+    <Overlay onClick={handleBackdropClick}>
+      <ModalDiv>
+        <img src={imageUrl} alt={imageTags} />
+      </ModalDiv>
+    </Overlay>
+  );
+  // }
 };
