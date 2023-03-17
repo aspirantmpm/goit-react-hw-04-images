@@ -5,57 +5,60 @@ import {
   SearchFormButtonLabel,
   SearchFormInput,
 } from './Globalstyle';
-import React, { Component } from 'react';
+// import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 // import { Formik } from 'formik';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 
-export class Searchbar extends Component {
-  static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
+export const Searchbar = ({ onSubmit }) => {
+  // static propTypes = {
+  //   onSubmit: PropTypes.func.isRequired,
+  // };
+
+  const [searchInput, setSearchInput] = useState('');
+
+  // state = {
+  //   searchInput: '',
+  // };
+
+  const handleChange = e => {
+    setSearchInput(e.target.value.toLowerCase());
   };
 
-  state = {
-    searchInput: '',
-  };
-
-  handleChange = e => {
-    this.setState({ searchInput: e.target.value.toLowerCase() });
-  };
-
-  handleFormSubmit = e => {
+  const handleFormSubmit = e => {
     e.preventDefault();
 
-    if (!this.state.searchInput.trim()) {
+    if (!searchInput.trim()) {
       return toast.error('Please enter search text');
     }
 
-    this.props.onSubmit(this.state.searchInput);
-    this.setState({ searchInput: '' });
+    onSubmit(searchInput);
+    setSearchInput('');
   };
 
-  render() {
-    return (
-      <Header>
-        {/* <form> */}
-        <SearchForm onSubmit={this.handleFormSubmit}>
-          <SearchFormButton type="submit">
-            <SearchFormButtonLabel>Search</SearchFormButtonLabel>
-          </SearchFormButton>
+  // render() {
+  return (
+    <Header>
+      {/* <form> */}
+      <SearchForm onSubmit={handleFormSubmit}>
+        <SearchFormButton type="submit">
+          <SearchFormButtonLabel>Search</SearchFormButtonLabel>
+        </SearchFormButton>
 
-          <SearchFormInput
-            name="images"
-            type="text"
-            autocomplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-            onChange={this.handleChange}
-            value={this.state.searchInput}
-          />
-        </SearchForm>
-        {/* </form> */}
-      </Header>
-    );
-  }
-}
+        <SearchFormInput
+          name="images"
+          type="text"
+          autocomplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+          onChange={handleChange}
+          value={searchInput}
+        />
+      </SearchForm>
+      {/* </form> */}
+    </Header>
+  );
+  // }
+};
