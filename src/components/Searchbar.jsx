@@ -5,23 +5,12 @@ import {
   SearchFormButtonLabel,
   SearchFormInput,
 } from './Globalstyle';
-// import React, { Component } from 'react';
+
 import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
-// import { Formik } from 'formik';
-// import PropTypes from 'prop-types';
-
 
 export const Searchbar = ({ onSubmit }) => {
-  // static propTypes = {
-  //   onSubmit: PropTypes.func.isRequired,
-  // };
-
   const [searchInput, setSearchInput] = useState('');
-
-  // state = {
-  //   searchInput: '',
-  // };
 
   const handleChange = e => {
     setSearchInput(e.target.value.toLowerCase());
@@ -38,10 +27,8 @@ export const Searchbar = ({ onSubmit }) => {
     setSearchInput('');
   };
 
-  // render() {
   return (
     <Header>
-      {/* <form> */}
       <SearchForm onSubmit={handleFormSubmit}>
         <SearchFormButton type="submit">
           <SearchFormButtonLabel>Search</SearchFormButtonLabel>
@@ -57,8 +44,6 @@ export const Searchbar = ({ onSubmit }) => {
           value={searchInput}
         />
       </SearchForm>
-      {/* </form> */}
     </Header>
   );
-  // }
 };

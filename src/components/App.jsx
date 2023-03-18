@@ -1,4 +1,3 @@
-// import { Component } from 'react';
 import React, { useState, useEffect } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
 import fetchImages from './fetch';
@@ -10,28 +9,15 @@ import { Button } from './Button';
 import { Modal } from './Modal';
 
 export const App = () => {
-  const[searchInput, setSearchInput] = useState('');
-  const[page, setPage] = useState(1);
-  const[isLoading, setIsLoading] = useState(false);
+  const [searchInput, setSearchInput] = useState('');
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const [images, setImages] = useState(null);
-  // const [error, setError] = useState(null);
   const [totalHits, setTotalHits] = useState(0);
   const [imagesOnPage, setImagesOnPage] = useState(0);
   const [showModal, setShowModal] = useState('');
   const [currentLargeImageUrl, setCurrentLargeImageUrl] = useState('');
   const [currentImageTags, setCurrentImageTags] = useState('');
-  // state = {
-  //   searchInput: '',
-  //   page: 1,
-  //   isLoading: false,
-  //   images: null,
-  //   error: null,
-  //   totalHits: 0,
-  //   imagesOnPage: 0,
-  //   showModal: false,
-  //   currentLargeImageUrl: '',
-  //   currentImageTags: '',
-  // };
 
   useEffect(() => {
     if (searchInput !== '') {
@@ -83,17 +69,16 @@ export const App = () => {
   };
 
   const turnOffLoader = () => {
-    return setIsLoading( false );
+    return setIsLoading(false);
   };
 
   const formSubmitHandler = data => {
     setSearchInput(data);
-    setPage(1)
+    setPage(1);
   };
 
   const nextFetch = () => {
-    setPage(prevState => prevState + 1 );
-    ;
+    setPage(prevState => prevState + 1);
   };
 
   const openModal = event => {
@@ -101,53 +86,38 @@ export const App = () => {
     const currentImageTags = event.target.alt;
     setCurrentLargeImageUrl(currentLargeImageUrl);
     setCurrentImageTags(currentImageTags);
-
-    // this.setState({ currentLargeImageUrl, currentImageTags });
     toggleModal();
   };
 
   const toggleModal = () => {
-    setShowModal( showModal  =>  !showModal,
-    );
+    setShowModal(showModal => !showModal);
   };
 
-  // render() {
-    // const {
-    //   images,
-    //   isLoading,
-    //   showModal,
-    //   currentLargeImageUrl,
-    //   currentImageTags,
-    //   imagesOnPage,
-    // } = this.state;
+  return (
+    <div>
+      <GlobalStyle />
+      <Toaster
+        position="top-left"
+        toastOptions={{
+          duration: 2000,
+        }}
+      />
+      <Searchbar onSubmit={formSubmitHandler} />
+      {images && <ImageGallery images={images} openModal={openModal} />}
 
-    return (
-      <div>
-        <GlobalStyle />
-        <Toaster
-          position="top-left"
-          toastOptions={{
-            duration: 2000,
-          }}
+      {isLoading && <Loader />}
+
+      {imagesOnPage > 0 && page < Math.ceil(totalHits / 12) && (
+        <Button onClick={nextFetch} />
+      )}
+
+      {showModal && (
+        <Modal
+          imageUrl={currentLargeImageUrl}
+          imageTags={currentImageTags}
+          onClose={toggleModal}
         />
-        <Searchbar onSubmit={formSubmitHandler} />
-        {images && <ImageGallery images={images} openModal={openModal} />}
-
-        {isLoading && <Loader />}
-
-        {imagesOnPage > 0 &&
-          page < Math.ceil(totalHits / 12) && (
-            <Button onClick={nextFetch} />
-          )}
-
-        {showModal && (
-          <Modal
-            imageUrl={currentLargeImageUrl}
-            imageTags={currentImageTags}
-            onClose={toggleModal}
-          />
-        )}
-      </div>
-    );
-  // }
-}
+      )}
+    </div>
+  );
+};

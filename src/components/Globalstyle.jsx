@@ -1,6 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
 import styled from 'styled-components';
-// import { Form } from 'formik';
 import 'modern-normalize';
 
 export const GlobalStyle = createGlobalStyle`
